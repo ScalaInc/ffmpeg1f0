@@ -29,6 +29,7 @@
 #include "libavutil/float_dsp.h"
 #include "libavutil/frame.h"
 
+#if CONFIG_OPUS_DECODER
 #if CONFIG_SWRESAMPLE
 #include "libswresample/swresample.h"
 #elif CONFIG_AVRESAMPLE
@@ -36,7 +37,7 @@
 #else
 #error "swresample or avresample are required for Opus"
 #endif
-
+#endif
 
 #include "avcodec.h"
 #include "get_bits.h"
