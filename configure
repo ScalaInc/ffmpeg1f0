@@ -3710,7 +3710,7 @@ msvc_common_flags(){
             -std=c99)             ;;
             # Common flags
             -fomit-frame-pointer) ;;
-            -g)                   echo -Z7 ;;
+            -g)                   ;; ## echo -Z7 ;;
             -fno-math-errno)      ;;
             -fno-common)          ;;
             -fno-signed-zeros)    ;;
