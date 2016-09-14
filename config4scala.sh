@@ -71,7 +71,7 @@ configure() (
     EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -OPT:REF -DEBUG user32.lib -NODEFAULTLIB:libcmt"
   fi
 
-  sh ${MMOSROOTMSYS2}/ffmpeg1f0/configure --toolchain=msvc --extra-cflags="${EXTRA_CFLAGS}" --extra-ldflags="${EXTRA_LDFLAGS}" ${OPTIONS}
+  sh ${MMOSROOTMSYS2}/src/ffmpeg1f0/configure --toolchain=msvc --extra-cflags="${EXTRA_CFLAGS}" --extra-ldflags="${EXTRA_LDFLAGS}" ${OPTIONS}
 )
 
 echo Config ffmpeg in MSVC ${arch} ${targetdir} config in ${PWD}...

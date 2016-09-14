@@ -1,5 +1,4 @@
 #!/bin/sh
-# l:\m4\vc14build\ff>..\..\buildkansas\msys64\usr\bin\bash.exe --login ..\..\ffmpeg1f0\bff4scala.sh x64 release
 arch=x86
 archdir=x86
 debug=true
