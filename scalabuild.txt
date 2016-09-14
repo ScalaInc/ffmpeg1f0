@@ -1,0 +1,24 @@
+This was the first successful build inside GIT make system, debug
+VC14, with Designer/Player basic options (no MPEG4pt2)
+
+/l/src/ffmpeg1f0/configure --disable-all --prefix=/l/m4/ffmpeg1f0/x64/Debug --toolchain=msvc --arch=amd64 --extra-cflags='-Zo -GS- -MDd' --extra-ldflags=' user32.lib /NODEFAULTLIB:libcmt' --enable-debug --enable-shared --enable-avformat --enable-avcodec --enable-avutil --enable-swscale --build-suffix=mm --disable-iconv --enable-dxva2 --enable-hwaccel='*_dxva2' --enable-protocol=file --enable-decoder='dvvideo,h261,h264,hevc,mjpeg,mjpegb,mpeg1video,mpeg2video,mpegvideo,prores_lgpl,vc1,wmv*,aac,aac_latm,mp1*,mp2*,mp3*,wma*,pcm_bluray,pcm_dvd,pcm_f*,pcm_s*,pcm_lxf,pcm_mulaw,pcm_alaw,pcm_u*,adpcm_g*,adpcm_ima*,adpcm_ms' --enable-parser='aac,aac_latm,dvbsub,dvdsub,h261,h264,hevc,mjpeg,mpeg4video,mpegaudio,mpegvideo,vc1' --enable-demuxer='mp3,aac,asf,avi,dv,g722,h261,h264,hevc,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav,xwma,ape'
+
+you have to tweak the config.mak, it leaves conflicting in -Z7 and 
+
+
+
+DEBUG VC14, extra goodies
+
+/l/src/ffmpeg1f0/configure --prefix=/l/m4/ffmpeg1f0/x64/Debug --toolchain=msvc --arch=amd64 --extra-cflags='-FS -Zi -Zo -GS- -MDd' --extra-ldflags=' user32.lib /NODEFAULTLIB:libcmt' --enable-debug --enable-shared --disable-all --enable-w32threads --enable-filter=scale,yadif,w3fdif --enable-avformat --enable-avcodec --enable-avutil --enable-swscale --build-suffix=mm --enable-dxva2 --disable-iconv --enable-hwaccel='*_dxva2' --enable-protocol=file,rtmp*,mms*,rtsp,rtp,tcp,udp,http --enable-decoder='dvvideo,h261,mpeg4,h264,hevc,mjpeg,mjpegb,mpeg1video,mpeg2video,mpegvideo,prores_lgpl,vc1,wmv*,aac,aac_latm,ac3,eac3,mp1*,mp2*,mp3*,wma*,pcm_bluray,pcm_dvd,pcm_f*,pcm_s*,pcm_lxf,pcm_mulaw,pcm_alaw,pcm_u*,adpcm_g*,adpcm_ima*,adpcm_ms' --enable-parser='aac,aac_latm,ac3,dvbsub,dvdsub,h261,h264,hevc,mjpeg,mpeg4video,mpegaudio,mpegvideo,vc1' --enable-demuxer='mp3,aac,ac3,eac3,asf,avi,dv,g722,h261,h264,hevc,hls,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav,xwma,rtsp,rtp,tcp,sdp'
+
+
+
+
+Attempt at fullopt build, VC14, with extra goodies (AC3, streaming from ffmpeg)
+
+/l/src/ffmpeg1f0/configure --prefix=/l/m4/ffmpeg1f0/x64/RWDI --toolchain=msvc --arch=amd64 --extra-cflags='-FS -Zi -Zo -GS- -O2 -Oy- -MD' --extra-ldflags='-OPT:REF -DEBUG user32.lib /NODEFAULTLIB:libcmt' --enable-shared --disable-all --enable-w32threads --enable-filter=scale,yadif,w3fdif --enable-avformat --enable-avcodec --enable-avutil --enable-swscale --build-suffix=mm --enable-dxva2 --disable-iconv --enable-hwaccel='*_dxva2' --enable-protocol=file,rtmp*,mms*,rtsp,rtp,tcp,udp,http --enable-decoder='dvvideo,h261,mpeg4,h264,hevc,mjpeg,mjpegb,mpeg1video,mpeg2video,mpegvideo,prores_lgpl,vc1,wmv*,aac,aac_latm,ac3,eac3,mp1*,mp2*,mp3*,wma*,pcm_bluray,pcm_dvd,pcm_f*,pcm_s*,pcm_lxf,pcm_mulaw,pcm_alaw,pcm_u*,adpcm_g*,adpcm_ima*,adpcm_ms' --enable-parser='aac,aac_latm,ac3,dvbsub,dvdsub,h261,h264,hevc,mjpeg,mpeg4video,mpegaudio,mpegvideo,vc1' --enable-demuxer='mp3,aac,ac3,eac3,asf,avi,dv,g722,h261,h264,hevc,hls,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav,xwma,rtsp,rtp,tcp,sdp'
+
+Note that I added the /FS flag (Force Synchronous PDB Writes
+(serialize through mspdbsrv.exe)) so I can call make -j 12 and run
+compilation in parallel across several processors.
+

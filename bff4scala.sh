@@ -4,6 +4,7 @@ arch=x86
 archdir=x86
 clean_build=true
 debug=true
+installincludes=false
 targetdir=Debug
 
 if [ -z "$MMOSROOT" ]; then
@@ -22,6 +23,9 @@ do
     x64 | amd64)
             arch=x86_64
             archdir=x64
+            ;;
+    includes)
+            installincludes=true
             ;;
     quick)
             clean_build=false
@@ -47,6 +51,12 @@ copy_libs() (
     cp -u -f --no-preserve=mode,ownership lib*/*mm-*.dll ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}
     cp -u -f --no-preserve=mode,ownership lib*/*mm-*.pdb ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}
     cp -u -f --no-preserve=mode,ownership lib*/*.lib ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}/lib
+)
+
+copy_includes() (
+if $installincludes; then
+	cp -u -f -r --no-preserve=mode,ownership ${PREFIX}/include/* ${MMOSROOTMSYS2}/include
+fi
 )
 
 clean() (
@@ -118,7 +128,9 @@ fi
 
 ## Only if configure succeeded, actually build
 if ! $clean_build || [ ${CONFIGRETVAL} -eq 0 ]; then
-  build &&  copy_libs
+  build &&  copy_libs && copy_includes
+  
+
 fi
 
 popd
