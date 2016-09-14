@@ -37,25 +37,43 @@ else()
   set(FFMPEG_ARCH_PARAM "x86")
 endif()
 
-file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bff4scala.sh" BFF4SCALASH)
+file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/config4scala.sh" CONFIG4SCALASH)
+file(TO_NATIVE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/build4scala.sh" BUILD4SCALASH)
 file(TO_CMAKE_PATH "${MMOSVC14TOOLSROOT}\\msys64\\usr\\bin\\bash.exe" MSYS2BASH)
 
-# add_custom_command( 
-#   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/config.mak
-#   #	WORKING_DIRECTORY ${cmakepathtocdl}
-#   COMMAND ${MMOSVC14TOOLSROOT}/msys64/usr/bin/bash.exe --login ${CMAKE_CURRENT_SOURCE_DIR}\\bff4scala.sh ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}
-#   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bff4scala.sh
-#   COMMENT "ffmpeg generate config and build for ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}")
+add_custom_target( ffmpeg1f0 ALL
+    COMMENT "build ffmpeg1f0")
 
-# add_custom_target( ffmpeg1f0 
-#   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/config.mak
-#   )
-
-add_custom_target( ffmpeg1f0
-  COMMAND ${MSYS2BASH} --login ${BFF4SCALASH} ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}
-#  SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/bff4scala.sh
-  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bff4scala.sh
+add_custom_command( 
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/config.mak
-  #	WORKING_DIRECTORY ${cmakepathtocdl}
-  COMMENT "ffmpeg generate config and build for ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}")
+  COMMAND ${MSYS2BASH} --login ${CONFIG4SCALASH} ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/config4scala.sh
+  COMMENT "ffmpeg generate config for ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}")
+
+add_custom_target( ffmpeg1f0_config
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/config.mak
+  )
+
+add_dependencies( ffmpeg1f0 ffmpeg1f0_config )
+
+# run always, but after config
+add_custom_command( 
+  OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/intentionallynonextantfile.dll
+  COMMAND ${MSYS2BASH} --login ${BUILD4SCALASH} ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM} includes
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/config.mak
+  COMMENT "ffmpeg build for ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}")
+
+add_custom_target( ffmpeg1f0_build
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/intentionallynonextantfile.dll
+  )
+
+add_dependencies( ffmpeg1f0 ffmpeg1f0_build )
+
+
+# install( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include 
+#   DESTINATION ${LOCAL_MMOS_INCLUDEDIR}
+#   PUBLIC_HEADER )
+# 
+# install( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
+#   DESTINATION ${
 
