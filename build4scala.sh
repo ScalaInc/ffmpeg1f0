@@ -22,9 +22,6 @@ do
             arch=x86_64
             archdir=x64
             ;;
-    includes)
-            installincludes=true
-            ;;
     release)
             debug=false
 			targetdir=RWDI
@@ -43,12 +40,6 @@ copy_libs() (
     cp -u -f --no-preserve=mode,ownership lib*/*.lib ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}/lib
 )
 
-copy_includes() (
-if $installincludes; then
-	cp -u -f -r --no-preserve=mode,ownership ${PREFIX}/include/* ${MMOSROOTMSYS2}/include
-fi
-)
-
 build() (
   make -j $NUMBER_OF_PROCESSORS
   make install
@@ -56,4 +47,4 @@ build() (
 
 echo Building ffmpeg in MSVC ${arch} ${targetdir} config in ${PWD}...
 
-build && copy_libs && copy_includes
+build && copy_libs
