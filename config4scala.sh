@@ -39,10 +39,11 @@ configure() (
   OPTIONS="
     --prefix=${PREFIX}                 \
     --libdir=crud                      \
+    --arch=${arch}                     \
     --enable-shared                    \
     --disable-static                   \
-    --enable-w32threads                \
     --disable-all                      \
+    --disable-videotoolbox             \
     --enable-w32threads                \
     --enable-filter=scale,yadif,w3fdif \
     --enable-avformat                  \
@@ -56,10 +57,9 @@ configure() (
     --enable-protocol=file,rtmp*,mms*,rtsp,rtp,tcp,udp,http   \
     --enable-decoder=dvvideo,h261,mpeg4,h264,hevc,mjpeg,mjpegb,mpeg1video,mpeg2video,mpegvideo,prores_lgpl,vc1,wmv*,aac,aac_latm,ac3,eac3,mp1*,mp2*,mp3*,wma*,pcm_bluray,pcm_dvd,pcm_f*,pcm_s*,pcm_lxf,pcm_mulaw,pcm_alaw,pcm_u*,adpcm_g*,adpcm_ima*,adpcm_ms  \
     --enable-parser=aac,aac_latm,ac3,dvbsub,dvdsub,h261,h264,hevc,mjpeg,mpeg4video,mpegaudio,mpegvideo,vc1 \
-    --enable-demuxer=mp3,aac,ac3,eac3,asf,avi,dv,g722,h261,h264,hevc,hls,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav,xwma,rtsp,rtp,tcp,sdp \
-    --arch=${arch}"
+    --enable-demuxer=mp3,aac,ac3,eac3,asf,avi,dv,g722,h261,h264,hevc,hls,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav,xwma,rtsp,rtp,tcp,sdp"
 
-  EXTRA_CFLAGS="-FS -Zi -Zo -GS-"
+  EXTRA_CFLAGS="-FS -Zi -Zo -GS- -D_WIN32_WINNT=0x0601"
   EXTRA_LDFLAGS=""
 
   if $debug ; then
