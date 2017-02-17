@@ -352,12 +352,12 @@ static av_cold int find_component(OMXContext *omx_context, void *logctx,
         av_log(logctx, AV_LOG_WARNING, "No component for role %s found\n", role);
         return AVERROR_ENCODER_NOT_FOUND;
     }
-    components = av_mallocz(sizeof(char*) * num);
+    components = av_mallocz_array(num, sizeof(*components));
     if (!components)
         return AVERROR(ENOMEM);
     for (i = 0; i < num; i++) {
         components[i] = av_mallocz(OMX_MAX_STRINGNAME_SIZE);
-        if (!components) {
+        if (!components[i]) {
             ret = AVERROR(ENOMEM);
             goto end;
         }
@@ -703,7 +703,7 @@ static av_cold int omx_encode_init(AVCodecContext *avctx)
                          nals[avctx->extradata[i + 4] & 0x1f]++;
                      }
                 }
-                if (nals[NAL_SPS] && nals[NAL_PPS])
+                if (nals[H264_NAL_SPS] && nals[H264_NAL_PPS])
                     break;
             } else {
                 if (avctx->extradata_size > 0)

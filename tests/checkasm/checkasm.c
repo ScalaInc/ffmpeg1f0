@@ -80,6 +80,9 @@ static const struct {
     #if CONFIG_FMTCONVERT
         { "fmtconvert", checkasm_check_fmtconvert },
     #endif
+    #if CONFIG_H264DSP
+        { "h264dsp", checkasm_check_h264dsp },
+    #endif
     #if CONFIG_H264PRED
         { "h264pred", checkasm_check_h264pred },
     #endif
@@ -94,6 +97,9 @@ static const struct {
     #endif
     #if CONFIG_V210_ENCODER
         { "v210enc", checkasm_check_v210enc },
+    #endif
+    #if CONFIG_VP8DSP
+        { "vp8dsp", checkasm_check_vp8dsp },
     #endif
     #if CONFIG_VP9_DECODER
         { "vp9dsp", checkasm_check_vp9dsp },
