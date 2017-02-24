@@ -36,7 +36,7 @@ PREFIX=${PWD}
 
 copy_libs() (
     cp -u -f --no-preserve=mode,ownership lib*/*mm-*.dll ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}
-    cp -u -f --no-preserve=mode,ownership lib*/*mm-*.pdb ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}
+#    cp -u -f --no-preserve=mode,ownership lib*/*mm-*.pdb ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}
     cp -u -f --no-preserve=mode,ownership lib*/*.lib ${MMOSROOTMSYS2}/current/${archdir}/${targetdir}/lib
 )
 
@@ -45,6 +45,6 @@ build() (
   make install
 )
 
-echo Building ffmpeg in MSVC ${arch} ${targetdir} config in ${PWD}...
+echo Building ffmpeg in MSYS2 ${arch} ${targetdir} config in ${PWD}...
 
 build && copy_libs

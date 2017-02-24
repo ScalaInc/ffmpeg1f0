@@ -56,24 +56,28 @@ configure() (
     --enable-protocol=file   \
     --enable-decoder=dvvideo,h261,mpeg4,h264,hevc,mjpeg,mjpegb,mpeg1video,mpeg2video,mpegvideo,prores_lgpl,vc1,wmv*,aac,aac_latm,ac3,eac3,mp1*,mp2*,mp3*,wma*,pcm_bluray,pcm_dvd,pcm_f*,pcm_s*,pcm_lxf,pcm_mulaw,pcm_alaw,pcm_u*,adpcm_g*,adpcm_ima*,adpcm_ms  \
     --enable-parser=aac,aac_latm,ac3,dvbsub,dvdsub,h261,h264,hevc,mjpeg,mpeg4video,mpegaudio,mpegvideo,vc1 \
-    --enable-demuxer=mp3,aac,ac3,eac3,asf,avi,dv,g722,h261,h264,hevc,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav"
+    --enable-demuxer=mp3,aac,ac3,eac3,asf,avi,dv,g722,h261,h264,hevc,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav,xwma"
 
-  EXTRA_CFLAGS="-FS -Zi -Zo -GS- -D_WIN32_WINNT=0x0601"
-  EXTRA_LDFLAGS=""
+  EXTRA_CFLAGS="-D_WIN32_WINNT=0x0601 -DWINVER=0x0601 -msse -mfpmath=sse"
+  EXTRA_LDFLAGS="-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -lz -Wl,-Bdynamic"
 
-  if $debug ; then
-    OPTIONS="${OPTIONS} --enable-debug"
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -MDd"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} user32.lib -NODEFAULTLIB:libcmt"
-  else
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -O2 -Oy- -MD"
-    EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -OPT:REF -DEBUG user32.lib -NODEFAULTLIB:libcmt"
+  if "$arch"="x86" ; then
+	echo ${arch} is not x86_64
+    OPTIONS="--cpu=i686 ${OPTIONS}"
   fi
 
-  sh ${MMOSROOTMSYS2}/src/ffmpeg1f0/configure --toolchain=msvc --extra-cflags="${EXTRA_CFLAGS}" --extra-ldflags="${EXTRA_LDFLAGS}" ${OPTIONS}
+  if $debug ; then
+    EXTRA_CFLAGS="${EXTRA_CFLAGS}"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"
+  else
+    EXTRA_CFLAGS="${EXTRA_CFLAGS}"
+    EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"
+  fi
+
+  sh ${MMOSROOTMSYS2}/src/ffmpeg1f0/configure --extra-cflags="${EXTRA_CFLAGS}" --extra-ldflags="${EXTRA_LDFLAGS}" ${OPTIONS}
 )
 
-echo Config ffmpeg in MSVC ${arch} ${targetdir} config in ${PWD}...
+echo Config ffmpeg in MSYS2 ${arch} ${targetdir} config in ${PWD}...
 
 ## run configure, redirect to file because of a msys bug
 configure > config.out 2>&1
