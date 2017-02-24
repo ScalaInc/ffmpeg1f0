@@ -35,8 +35,10 @@ done
 
 PREFIX=${PWD}
 
+# The VC14 build of ffmpeg uses more CPU than the gcc build.  I tried the --enable-asm flag to see if that changed anything, it didn't.
 configure() (
   OPTIONS="
+    --enable-asm                       \
     --prefix=${PREFIX}                 \
     --libdir=crud                      \
     --arch=${arch}                     \
@@ -44,6 +46,7 @@ configure() (
     --disable-static                   \
     --disable-all                      \
     --disable-videotoolbox             \
+    --enable-asm                       \
     --enable-w32threads                \
     --enable-avformat                  \
     --enable-avcodec                   \
