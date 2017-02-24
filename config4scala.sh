@@ -59,7 +59,8 @@ configure() (
     --enable-demuxer=mp3,aac,ac3,eac3,asf,avi,dv,g722,h261,h264,hevc,m4v,mjpeg,mov,mpegps,mpegts,mpegtsraw,mpegvideo,pcm_s*,pcm_u*,pcm_f*,pcm_mulaw,pcm_alaw,vc1*,wav,xwma"
 
   EXTRA_CFLAGS="-D_WIN32_WINNT=0x0601 -DWINVER=0x0601 -msse -mfpmath=sse"
-  EXTRA_LDFLAGS="-static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -lz -Wl,-Bdynamic"
+  ## I need zlib and others to be statically linked.  This used to be more elaborate, but I changed to -static and deleted all libz.dll.a and pthread.dll.a from my msys2 install.  Yuck.
+  EXTRA_LDFLAGS="-static"
 
   if "$arch"="x86" ; then
 	echo ${arch} is not x86_64
