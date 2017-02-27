@@ -24,6 +24,14 @@ endif()
 
 include (${MMOSROOT}/src/cmake/Scala.cmake)
 
+set(MP4PT2_OPTION "")
+
+if(DEFINED ENABLE_MP4PT2)
+  if(ENABLE_MP4PT2)
+	set(MP4PT2_OPTION "mp4pt2")
+  endif()
+endif()
+
 if ( CMAKE_BUILD_TYPE MATCHES DEBUG )
   set(FFMPEG_BUILD_TYPE_PARAM "")
   #   message("####################  Assume a Debug build")
@@ -48,7 +56,7 @@ if ( NOT ( CMAKE_BUILD_TYPE MATCHES PREBUILD ) )
 
   add_custom_command( 
 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/config.mak
-	COMMAND ${MSYS2BASH} --login ${CONFIG4SCALASH} ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}
+	COMMAND ${MSYS2BASH} --login ${CONFIG4SCALASH} ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM} ${MP4PT2_OPTION}
 	DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/config4scala.sh
 	COMMENT "ffmpeg generate config for ${FFMPEG_ARCH_PARAM} ${FFMPEG_BUILD_TYPE_PARAM}")
 
