@@ -67,7 +67,9 @@ configure() (
   ## I need zlib and others to be statically linked.  This used to be more elaborate, but I changed to -static and deleted all libz.dll.a and pthread.dll.a from my msys2 install.  Yuck.
   EXTRA_LDFLAGS="-static"
 
-  if test "$arch"="x86" ; then
+  if [ $arch = x86 ] 
+  then
+	echo adding cpu i686 option for x86 build
     OPTIONS="--cpu=i686 ${OPTIONS}"
   fi
 
