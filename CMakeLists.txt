@@ -1,16 +1,21 @@
 cmake_minimum_required(VERSION 3.5)
 
-project("ffmpeg1f0")
-
-if(NOT DEFINED MMOSROOT)
+if(NOT DEFINED CMAKE_DEVROOT)
     if (DEFINED ENV{MMOSROOT}) # if not null, false, etc
-        set(MMOSROOT $ENV{MMOSROOT} CACHE STRING "MMOS root")
-	message("#### MMOSROOT set from ENV = $ENV{MMOSROOT}")
+        set(CMAKE_DEVROOT $ENV{MMOSROOT} CACHE STRING "Normalized Root")
+        message("CMAKE_DEVROOT set from environment variable MMOSROOT = $ENV{MMOSROOT}")
+    elseif (DEFINED ENV{SCALA_ROOT}) # if not null, false, etc
+        set(CMAKE_DEVROOT $ENV{SCALA_ROOT} CACHE STRING "Normalized Root")
+        message("CMAKE_DEVROOT set from environment variable SCALA_ROOT = $ENV{SCALA_ROOT}")
     else()
-        message(FATAL_ERROR "MMOSROOT not set!")
+        message(FATAL_ERROR "Either MMOSROOT or preferably SCALA_ROOT environment variable must be set!")
     	return()
     endif()
 endif()
+
+###########################################################################################################
+
+project("ffmpeg1f0")
 
 if(NOT DEFINED MMOSVC14TOOLSROOT)
     if (DEFINED ENV{MMOSVC14TOOLSROOT}) # if not null, false, etc
@@ -22,7 +27,7 @@ if(NOT DEFINED MMOSVC14TOOLSROOT)
     endif()
 endif()
 
-include (${MMOSROOT}/src/cmake/Scala.cmake)
+include (${CMAKE_DEVROOT}/src/cmake/Scala-MMOS.cmake)
 
 set(MP4PT2_OPTION "")
 
